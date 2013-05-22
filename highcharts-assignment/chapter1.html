@@ -1,6 +1,6 @@
 <html>
 <link rel="stylesheet" type="text/css" href="styles/styles.css"/>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
 <script type="text/javascript">
 var chart;
 var dataObj = {sales:[451,393,372,342,641,478,479,686,632,413,647,413,601,388,540,556,430,598,498,655,438,552,586,404,564,516,493,398,548,411,288,566,663,620,770,526,521,527,519,602,699,506,618,514,446,786,696,460,492,772,818,514,647,648,746,518,531,524,551,672,512,427,656,523,643,547,454,700,491,645,505,594,658,640,695,787,690,577,498,384,599,804,672,487,470,494,567,683,744,688,701,596,527,575,721,953,597,657,519,572,639,672,744,426,762,743,648,521,519,658,508,449,745,571,413,666,776,403,775,541,461,595,550,691,492,683,684,472,906,434,518,932,459,749,524,750,743,562,585,773,997,659,524,941,704,545,725,230,533,535,496,723,596,803,396,693,729,656,593,727,612,599,755,652,506,862,748,537,357,812,602,895,492,568,914,981,700,874,708,784,631,774,505,606,656,578,819,622,955,725,730,521,797,791,781,941,542,710,979,779,526,714,862,735,651,470,789,528,824,630,618,751,760,701,606,684,649,839,1010,643,648,501,718,967,943,821,509,483,936,691,699,463,1072,633,735,770,708,593,522,651,746,636,738,713,1131,851,526,465,753,1031,621,864,554,548,790,654,982,545,641,703,1045,788,805,605,596,712,945,900,570,663,647,861,851,621,1004,1151,956,888,879,607,624,712,903,786,764,699,689,655,749,421,1072,623,740,794,781,958,1039,971,826,777,889,819,812,661,711,791,560,679,1047,944,740,674,496,666,858,785,815,981,460,600,732,930,901,557,820,463,811,755,726,792,925,1228,976,948,919,701,1062,772,1107,716,986,696,990,903,1034,1014,883,994,476,849,623,847,649,793,706,753,706,1011,1060,857,989,1177,684,662,1171],
@@ -32,20 +32,18 @@ $(document).ready(function() {
 	}
 	
 	function updateFormData() {
-		//console.log("364 - " + dataObj.tvspots_peak[364]);
-		//console.log("365 - " + dataObj.tvspots_peak[365]);
-		//console.log("366 - " + dataObj.tvspots_peak[366]);
-		dataObj.tvspots_peak[365] = $('#peak1').val();
-		dataObj.tvspots_peak[366] = $('#peak2').val();
-		dataObj.tvspots_peak[367] = $('#peak3').val();
-		dataObj.tvspots_peak[368] = $('#peak4').val();
-		dataObj.tvspots_peak[369] = $('#peak5').val();
+
+		dataObj.tvspots_peak[365] = Number($('#peak1').val());
+		dataObj.tvspots_peak[366] = Number($('#peak2').val());
+		dataObj.tvspots_peak[367] = Number($('#peak3').val());
+		dataObj.tvspots_peak[368] = Number($('#peak4').val());
+		dataObj.tvspots_peak[369] = Number($('#peak5').val());
 		
-		dataObj.tvspots_nonpeak[365] = $('#nonpeak1').val();
-		dataObj.tvspots_nonpeak[366] = $('#nonpeak2').val();
-		dataObj.tvspots_nonpeak[367] = $('#nonpeak3').val();
-		dataObj.tvspots_nonpeak[368] = $('#nonpeak4').val();
-		dataObj.tvspots_nonpeak[369] = $('#nonpeak5').val();
+		dataObj.tvspots_nonpeak[365] = Number($('#nonpeak1').val());
+		dataObj.tvspots_nonpeak[366] = Number($('#nonpeak2').val());
+		dataObj.tvspots_nonpeak[367] = Number($('#nonpeak3').val());
+		dataObj.tvspots_nonpeak[368] = Number($('#nonpeak4').val());
+		dataObj.tvspots_nonpeak[369] = Number($('#nonpeak5').val());
 		
 		dataObj.sales[365] = predictSales(dataObj.tvspots_peak[365], dataObj.tvspots_nonpeak[365]);
 		dataObj.sales[366] = predictSales(dataObj.tvspots_peak[366], dataObj.tvspots_nonpeak[366]);
@@ -59,16 +57,11 @@ $(document).ready(function() {
 		$('#sales4').val(dataObj.sales[368]);
 		$('#sales5').val(dataObj.sales[369]);
 		
-		console.log("peak len: " + dataObj.tvspots_nonpeak.length);
-		console.log("non peak len: " + dataObj.tvspots_peak.length);
-		//console.log("tvspots peak: " + dataObj.tvspots_peak);
-		//console.log("tvspots non peak: " + dataObj.tvspots_nonpeak);
 		//sales_ma = calculateMovingAverage(dataObj.sales);
-		//console.log("sales_ma aft: " + sales_ma);
 		//makeGraph();
-		chart.series[0].setData(dataObj.tvspots_peak, false);
-		chart.series[1].setData(dataObj.tvspots_nonpeak, false);
-		chart.redraw();
+		chart.series[0].setData(dataObj.tvspots_peak);
+		chart.series[1].setData(dataObj.tvspots_nonpeak);
+		//chart.redraw();
 	}
 	
 	function calculateAverage(arr_val) {
@@ -76,7 +69,6 @@ $(document).ready(function() {
 		for(var i=0; i<arr_val.length; i++) {
 			total_val +=  arr_val[i];
 		}
-		//console.log("total_val: " + total_val + " avg: " + (Math.round(total_val/arr_val.length)));
 		return (Math.round(total_val/arr_val.length));
 	}
 	
@@ -160,14 +152,14 @@ $(document).ready(function() {
 			type: 'spline',
 			color: '#c0dba3',
 			yAxis: 1,
-			data: dataObj.tvspots_peak//tvspot_pma,
+			data: dataObj.tvspots_peak
 			},
 			{
 			name: 'TV Spots (Non-Peak)',
 			type: 'spline',
 			color: '#dbd4a3',
 			yAxis: 1,
-			data: dataObj.tvspots_nonpeak//tvspot_npma
+			data: dataObj.tvspots_nonpeak
 			},
 			{
 			name: 'Sales (Moving Average)',
@@ -180,6 +172,12 @@ $(document).ready(function() {
 			}
 			}]
 		});
+		console.log("tvspots peak: " + dataObj.tvspots_peak.length);
+		console.log("" + dataObj.tvspots_peak);
+		console.log(dataObj.tvspots_peak instanceof Array);
+		console.log("tvspots non peak: " + dataObj.tvspots_nonpeak.length);
+		console.log("" + dataObj.tvspots_nonpeak);
+		console.log(dataObj.tvspots_nonpeak instanceof Array);
 	}
 	var sales_ma = calculateMovingAverage(dataObj.sales);
 	//var tvspot_pma = calculateMovingAverage(dataObj.tvspots_peak);
