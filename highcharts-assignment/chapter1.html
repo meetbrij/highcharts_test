@@ -16,7 +16,6 @@ $(document).ready(function() {
 			startIndex = i;
 			endIndex = startIndex + 30;
 			var arr_vals = data_arr.slice(startIndex, endIndex);
-			//console.log("arr_vals: " + arr_vals);
 			if(startIndex < 31) {
 				ma_arr[startIndex]= 'null';
 			}
@@ -27,7 +26,7 @@ $(document).ready(function() {
 	
 	//sales = 532.410 + (11.278 * TV Spots Peak) + (16.061 + TV Spots Non Peak)
 	function predictSales(tvsptp, tvsptnp) {
-		var sales = 532.410 + (11.278 * tvsptp) + (16.061 + tvsptnp);
+		var sales = Math.round(532.410 + (11.278 * tvsptp) + (16.061 + tvsptnp));
 		return sales;
 	}
 	
@@ -57,10 +56,11 @@ $(document).ready(function() {
 		$('#sales4').val(dataObj.sales[368]);
 		$('#sales5').val(dataObj.sales[369]);
 		
-		//sales_ma = calculateMovingAverage(dataObj.sales);
-		//makeGraph();
-		chart.series[0].setData(dataObj.tvspots_peak);
-		chart.series[1].setData(dataObj.tvspots_nonpeak);
+		sales_ma = calculateMovingAverage(dataObj.sales);
+		makeGraph();
+		//chart.series[0].setData(dataObj.tvspots_peak);
+		//chart.series[1].setData(dataObj.tvspots_nonpeak);
+		//chart.series[2].setData(dataObj.sales);
 		//chart.redraw();
 	}
 	
@@ -96,7 +96,7 @@ $(document).ready(function() {
 		},
 		yAxis: [{ // Primary yAxis
 			labels: {
-				format: '{value} Euro',
+				format: '{value} Euros',
 				style: {
 					color: '#4572A7'
 				}
@@ -172,20 +172,13 @@ $(document).ready(function() {
 			}
 			}]
 		});
-		console.log("tvspots peak: " + dataObj.tvspots_peak.length);
-		console.log("" + dataObj.tvspots_peak);
-		console.log(dataObj.tvspots_peak instanceof Array);
-		console.log("tvspots non peak: " + dataObj.tvspots_nonpeak.length);
-		console.log("" + dataObj.tvspots_nonpeak);
-		console.log(dataObj.tvspots_nonpeak instanceof Array);
+		console.log("Sales: " + sales_ma);
+		//console.log("tvspots peak: " + dataObj.tvspots_peak);
+		//console.log("tvspots non peak: " + dataObj.tvspots_nonpeak);
 	}
 	var sales_ma = calculateMovingAverage(dataObj.sales);
-	//var tvspot_pma = calculateMovingAverage(dataObj.tvspots_peak);
-	//var tvspot_npma = calculateMovingAverage(dataObj.tvspots_nonpeak);
 	//console.log("sales_ma: " + sales_ma);
-	//console.log("tvspot_pma: " + tvspot_pma);
-	//console.log("tvspot_npma: " + tvspot_npma);
-    makeGraph();
+	makeGraph();
 	$('#submit').click(function() {
 		console.log("submit clicked");
 		updateFormData();
@@ -217,11 +210,11 @@ $(document).ready(function() {
         </div>
 		<div id='nonpeak' class="group3">
 			Predicted Sales for the 5 days<br>
-			Day 1 : <input type='text' id='sales1' size=5 /><br>
-			Day 2 : <input type='text' id='sales2' size=5 /><br>
-			Day 3 : <input type='text' id='sales3' size=5 /><br>
-			Day 4 : <input type='text' id='sales4' size=5 /><br>
-			Day 5 : <input type='text' id='sales5' size=5 />
+			Day 1 : <input type='text' id='sales1' size=5 /> Euros<br>
+			Day 2 : <input type='text' id='sales2' size=5 /> Euros<br>
+			Day 3 : <input type='text' id='sales3' size=5 /> Euros<br>
+			Day 4 : <input type='text' id='sales4' size=5 /> Euros<br>
+			Day 5 : <input type='text' id='sales5' size=5 /> Euros
         </div>
 		<div class='submit_button'>
               <input type='button' value='Submit' name='submit' id='submit'/>
